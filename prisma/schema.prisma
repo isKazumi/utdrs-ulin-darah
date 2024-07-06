@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum GolonganDarah {
+  A
+  AB
+  B
+  O
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String? @unique
+  password String
+}
+
+model StokDarah {
+  id       Int           @id @unique @default(autoincrement())
+  golongan GolonganDarah
+  jumlah   Int
+}
+
+model KartuGolonganDarah {
+  id             Int           @id @unique @default(autoincrement())
+  nama_lengkap   String
+  tanggal_lahir  DateTime
+  Telpon         String
+  golongan_darah GolonganDarah
+}
+
+model DataPendonor {
+  id             Int           @id @unique @default(autoincrement())
+  nomer          String
+  tanggal        DateTime
+  name           String
+  golongan_darah GolonganDarah
+  kategori_donor String
+}
+
+model LabelDarah {
+  id                Int           @id @unique @default(autoincrement())
+  produk            String
+  volume            String
+  waktu_permintaan  DateTime
+  waktu_exp         DateTime
+  golongan_darah    GolonganDarah
+  rhesus            String
+  non_reaktif       String
+  no_kantong        String
+  suhu_penyimpanan  String
+  no_rmk            String
+  nama_pasien       String
+  ruangan           String
+  hasil_pemeriksaan String
+}
+
+model PemusnahanDarah {
+  id                          Int    @id @unique @default(autoincrement())
+  nama                        String
+  jabatan                     String
+  ruangan                     String
+  nomor                       String
+  telah_melakukan_pemusnaha   String
+  tempat_melakukan_pemusnahan String
+}
+
+model BlankoDarah {
+  id                Int           @id @unique @default(autoincrement())
+  tanggal           DateTime
+  no_rmk            String
+  name              String
+  ruangan           String
+  golongan_darah    GolonganDarah
+  rhesus            String
+  no_cross_test     String
+  no_kantong        String
+  jenis_darah       String
+  hasil_pemeriksaan String
+  reaksi_transfusi  String
+  keterangan        String
+}
